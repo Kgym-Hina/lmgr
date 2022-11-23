@@ -1,11 +1,5 @@
 # **Logo Manager**
 [![](https://img.shields.io/github/license/lazyt/lmgr.svg?color=blue)](https://github.com/LazyT/lmgr/blob/master/LICENSE)
-[![](https://img.shields.io/badge/platform-win%20%7C%20lin%20%7C%20mac-blue.svg)](https://github.com/LazyT/lmgr#download)
-[![](https://img.shields.io/badge/paypal-buy%20me%20a%20beer-red.svg)](https://paypal.me/LazyT)
-[![](https://img.shields.io/github/downloads/lazyt/lmgr/total.svg?color=orange)](https://github.com/LazyT/lmgr/releases)
-[![](https://img.shields.io/github/last-commit/lazyt/lmgr/master.svg?color=yellow)](https://github.com/LazyT/lmgr/commits/master)
-[![](https://img.shields.io/github/release-date/lazyt/lmgr.svg?color=brightgreen)](https://github.com/LazyT/lmgr/releases/latest)
-[![](https://img.shields.io/github/release/lazyt/lmgr.svg?color=brightgreen)](https://github.com/LazyT/lmgr/releases/latest)
 
 ## Translation
 
