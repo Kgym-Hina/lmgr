@@ -7,6 +7,10 @@
 [![](https://img.shields.io/github/release-date/lazyt/lmgr.svg?color=brightgreen)](https://github.com/LazyT/lmgr/releases/latest)
 [![](https://img.shields.io/github/release/lazyt/lmgr.svg?color=brightgreen)](https://github.com/LazyT/lmgr/releases/latest)
 
+## Translation
+
+此Repo储存的仅为原项目的中文翻译版本。经测试，小米 10(`umi`)仍然可以正常使用
+
 ## Description
 
 Logo Manager is an easy-to-use tool for viewing, editing, dumping and flashing splash screens (logo.img) of certain Xiaomi smartphones.
