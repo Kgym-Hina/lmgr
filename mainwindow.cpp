@@ -44,8 +44,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	setupUi(this);
 
 	lcd = new QLCDNumber(1);
-	lcd->setToolTip(tr("Logo Screens"));
-	lcd->setStatusTip(tr("Logo Screens"));
+	lcd->setToolTip(tr("Logo 画面"));
+	lcd->setStatusTip(tr("Logo 画面"));
 
 	toolBar->insertWidget(actionNextLogo, lcd);
 
@@ -153,22 +153,22 @@ void MainWindow::exportImage(QLabel *label)
 
 			if(rc == false || bytes == -1)
 			{
-				QMessageBox::warning(this, APPNAME, tr("Logo screen export failed!\n\n%1").arg(save.errorString()));
+				QMessageBox::warning(this, APPNAME, tr("导出LOGO画面失败\n\n%1").arg(save.errorString()));
 			}
 			else
 			{
-				QMessageBox::information(this, APPNAME, tr("Logo screen export successfull."));
+				QMessageBox::information(this, APPNAME, tr("导出LOGO画面成功"));
 			}
 		}
 		else
 		{
 			if(img.save(save.fileName()))
 			{
-				QMessageBox::information(this, APPNAME, tr("Logo screen export successfull."));
+				QMessageBox::information(this, APPNAME, tr("导出LOGO画面成功"));
 			}
 			else
 			{
-				QMessageBox::warning(this, APPNAME, tr("Logo screen export failed!\n\n%1").arg(save.errorString()));
+				QMessageBox::warning(this, APPNAME, tr("导出LOGO画面失败\n\n%1").arg(save.errorString()));
 			}
 		}
 	}
@@ -184,7 +184,7 @@ bool MainWindow::on_actionOpen_triggered()
 	QFile file(QFileDialog::getOpenFileName(this, open_text, QStandardPaths::writableLocation(QStandardPaths::DownloadLocation) + "/logo.img", "logo*.img", nullptr, QFileDialog::DontUseNativeDialog));
 
 	flash_file = file.fileName();
-	open_text = tr("Import Logo Image");
+	open_text = tr("导入 LOGO 镜像");
 
 	if(!file.fileName().isEmpty())
 	{
@@ -195,7 +195,7 @@ bool MainWindow::on_actionOpen_triggered()
 
 			if(logo.mid(0x4000, 8) != "LOGO!!!!")
 			{
-				QMessageBox::warning(this, APPNAME, tr("Doesn't look like a supported logo image!\n\nNo \"LOGO!!!!\" header @ 0x4000..."));
+				QMessageBox::warning(this, APPNAME, tr("所选文件似乎不受支持!\n\nNo \"LOGO!!!!\" header @ 0x4000..."));
 			}
 			else
 			{
@@ -293,7 +293,7 @@ bool MainWindow::on_actionOpen_triggered()
 
 				if(screens > 9)
 				{
-					QMessageBox::warning(this, APPNAME, tr("More than 9 logo screens found!\n\nThis is not supported yet..."));
+					QMessageBox::warning(this, APPNAME, tr("找到了九个以上图片\n\n该软件尚未支持..."));
 
 					actionSave->setEnabled(false);
 
@@ -302,7 +302,7 @@ bool MainWindow::on_actionOpen_triggered()
 
 				if(failed)
 				{
-					QMessageBox::warning(this, APPNAME, tr("Could not load logo screens!"));
+					QMessageBox::warning(this, APPNAME, tr("无法加载 LOGO 镜像!"));
 
 					return false;
 				}
@@ -335,7 +335,7 @@ bool MainWindow::on_actionOpen_triggered()
 		}
 		else
 		{
-			QMessageBox::warning(this, APPNAME, tr("Could not open logo image!\n\n%1").arg(file.errorString()));
+			QMessageBox::warning(this, APPNAME, tr("无法打开 LOGO 镜像\n\n%1").arg(file.errorString()));
 		}
 	}
 
@@ -344,7 +344,7 @@ bool MainWindow::on_actionOpen_triggered()
 
 void MainWindow::on_actionSave_triggered()
 {
-	QFile file(QFileDialog::getSaveFileName(this, tr("Export Logo Image"), QStandardPaths::writableLocation(QStandardPaths::DownloadLocation) + "/logo.img", "logo*.img", nullptr, QFileDialog::DontUseNativeDialog));
+	QFile file(QFileDialog::getSaveFileName(this, tr("导出 LOGO 镜像"), QStandardPaths::writableLocation(QStandardPaths::DownloadLocation) + "/logo.img", "logo*.img", nullptr, QFileDialog::DontUseNativeDialog));
 
 	if(!file.fileName().isEmpty())
 	{
@@ -359,18 +359,18 @@ void MainWindow::on_actionSave_triggered()
 
 			file.close();
 
-			QMessageBox::information(this, APPNAME, tr("Logo image saved successfully."));
+			QMessageBox::information(this, APPNAME, tr("导出成功"));
 		}
 		else
 		{
-			QMessageBox::critical(this, APPNAME, tr("Could not save logo image!\n\n%1").arg(file.errorString()));
+			QMessageBox::critical(this, APPNAME, tr("导出失败\n\n%1").arg(file.errorString()));
 		}
 	}
 }
 
 void MainWindow::on_actionDump_triggered()
 {
-	if(QMessageBox::question(this, APPNAME, tr("Dumping logo image needs root!\n\nReally continue?")) == QMessageBox::Yes)
+	if(QMessageBox::question(this, APPNAME, tr("提取 LOGO 镜像需要 ROOT 权限\n\n确定继续?")) == QMessageBox::Yes)
 	{
 		flashDialog(this, DUMP).exec();
 	}
@@ -378,9 +378,9 @@ void MainWindow::on_actionDump_triggered()
 
 void MainWindow::on_actionFlash_triggered()
 {
-	if(QMessageBox::question(this, APPNAME, tr("Flashing wrong logo image may brick your device!\n\nReally continue?")) == QMessageBox::Yes)
+	if(QMessageBox::question(this, APPNAME, tr("刷入 LOGO 可能会损伤你的设备\n\n确定继续?")) == QMessageBox::Yes)
 	{
-		open_text = tr("Flash Logo Image");
+		open_text = tr("刷入");
 
 		if(on_actionOpen_triggered())
 		{
@@ -556,7 +556,7 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
 
 void MainWindow::closeEvent(QCloseEvent *ce)
 {
-	if(forceclose || QMessageBox::question(this, APPNAME, tr("Really exit program?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes)
+	if(forceclose || QMessageBox::question(this, APPNAME, tr("确定退出？"), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes)
 	{
 		ce->accept();
 	}

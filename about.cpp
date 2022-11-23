@@ -11,7 +11,7 @@ aboutDialog::aboutDialog(QWidget *parent) : QDialog(parent)
 	label_Version->setText(tr("Version %1 - %2").arg(APPVERS, APPDATE));
 
 	textEdit->setAlignment(Qt::AlignCenter);
-	textEdit->textCursor().insertText(tr("This program is Freeware and may be installed and used free of charge for non-commercial use on as many computers as you like without limitations.\n\nA liability for any damages resulting from the use is excluded. Use at your own risk!"));
+	textEdit->textCursor().insertText(tr("该程序是免费软件，可以在任意多台计算机上免费安装和使用，但不限于非商业用途。\n\n对于因使用而造成的任何损害，我们不承担任何责任。 使用风险自负！\n翻译：Hina"));
 	textEdit->moveCursor(QTextCursor::Start);
 	textEdit->setFixedHeight(5 * textEdit->fontMetrics().height() + textEdit->document()->documentMargin() + 2);
 }

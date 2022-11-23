@@ -61,7 +61,7 @@ private:
 
 	QByteArray logo;
 
-	QString open_text = tr("Import Logo Image");
+	QString open_text = tr("导入 LOGO 镜像");
 
 	void importImage(QLabel*, QLabel*, int, int);
 	void exportImage(QLabel*);

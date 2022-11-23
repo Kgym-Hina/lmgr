@@ -11,8 +11,8 @@ onlineUpdDialog::onlineUpdDialog(QWidget *parent, bool mode) : QDialog(parent)
 
 	textEdit->setFixedHeight(5 * textEdit->fontMetrics().height() + static_cast<int>(textEdit->document()->documentMargin()) + 2);
 
-	buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("Ignore"));
-	buttonBox->button(QDialogButtonBox::Apply)->setText(tr("Update"));
+	buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("走着！忽略"));
+	buttonBox->button(QDialogButtonBox::Apply)->setText(tr("更新"));
 
 	label_icon->setPixmap(QPixmap(IMG));
 
@@ -103,7 +103,7 @@ void onlineUpdDialog::checkUpdate()
 		{
 			if(!silent)
 			{
-				QMessageBox::information(reinterpret_cast<QWidget*>(parent()), APPNAME, tr("No new version found."));
+				QMessageBox::information(reinterpret_cast<QWidget*>(parent()), APPNAME, tr("无新版本"));
 			}
 
 			close();
@@ -113,7 +113,7 @@ void onlineUpdDialog::checkUpdate()
 	{
 		if(!silent)
 		{
-			QMessageBox::warning(reinterpret_cast<QWidget*>(parent()), APPNAME, tr("Online update check failed!\n\n%1").arg(reply->errorString()));
+			QMessageBox::warning(reinterpret_cast<QWidget*>(parent()), APPNAME, tr("检测更新失败\n\n%1").arg(reply->errorString()));
 		}
 
 		close();
@@ -133,7 +133,7 @@ void onlineUpdDialog::finished(QNetworkReply *reply)
 {
 	if(reply->error())
 	{
-		QMessageBox::warning(this, APPNAME, tr("Download from Github failed!\n\n%1").arg(reply->errorString()));
+		QMessageBox::warning(this, APPNAME, tr("从 GH 下载失败\n\n%1").arg(reply->errorString()));
 	}
 	else
 	{
@@ -149,7 +149,7 @@ void onlineUpdDialog::finished(QNetworkReply *reply)
 #endif
 			file.close();
 
-			if(QMessageBox::question(this, APPNAME, tr("Download successfully saved to %1.\n\nRun new version now?").arg(file.fileName()), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
+			if(QMessageBox::question(this, APPNAME, tr("下载成功 %1.\n\n立即更新?").arg(file.fileName()), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
 			{
 #ifdef Q_OS_OSX
 				if(QProcess::startDetached("open", {file.fileName()}))
@@ -163,13 +163,13 @@ void onlineUpdDialog::finished(QNetworkReply *reply)
 				}
 				else
 				{
-					QMessageBox::warning(this, APPNAME, tr("Could not run new version!"));
+					QMessageBox::warning(this, APPNAME, tr("新版本无法打开"));
 				}
 			}
 		}
 		else
 		{
-			QMessageBox::warning(this, APPNAME, tr("Could not save download to %1!\n\n%2").arg(file.fileName()).arg(file.errorString()));
+			QMessageBox::warning(this, APPNAME, tr("下载失败 %1!\n\n%2").arg(file.fileName()).arg(file.errorString()));
 		}
 	}
 
@@ -180,7 +180,7 @@ void onlineUpdDialog::reject()
 {
 	if(reply->isRunning())
 	{
-		if(QMessageBox::question(this, APPNAME, tr("Really abort download?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
+		if(QMessageBox::question(this, APPNAME, tr("确定要取消下载吗?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
 		{
 			reply->abort();
 		}
@@ -214,6 +214,6 @@ void onlineUpdDialog::on_buttonBox_clicked(QAbstractButton *button)
 		connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(downloadProgress(qint64, qint64)));
 
 		buttonBox->button(QDialogButtonBox::Apply)->setDisabled(true);
-		buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("Cancel"));
+		buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("取消"));
 	}
 }

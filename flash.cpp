@@ -1,4 +1,4 @@
-﻿#include "flash.h"
+#include "flash.h"
 
 flashDialog::flashDialog(QWidget *parent, bool mode) : QDialog(parent)
 {
@@ -10,7 +10,7 @@ flashDialog::flashDialog(QWidget *parent, bool mode) : QDialog(parent)
 
 	if(mode == DUMP)
 	{
-		setWindowTitle(tr("Dump Logo Image"));
+		setWindowTitle(tr("提取 LOGO 镜像"));
 
 		label_4->setDisabled(true);
 		label_fbt->setDisabled(true);
@@ -23,7 +23,7 @@ flashDialog::flashDialog(QWidget *parent, bool mode) : QDialog(parent)
 
 void flashDialog::prg_errorOccurred(__attribute__((unused)) QProcess::ProcessError error)
 {
-	QMessageBox::critical(this, APPNAME,tr("Could not run command!\n\n%1").arg(process->errorString()));
+	QMessageBox::critical(this, APPNAME,tr("润不了指令：\n\n%1").arg(process->errorString()));
 
 	failed = true;
 	running = false;
@@ -108,7 +108,7 @@ void flashDialog::initADB()
 
 		buttonBox->button(QDialogButtonBox::Retry)->setEnabled(true);
 
-		QMessageBox::warning(this, APPNAME, tr("No device found!\n\nConnect device via usb and try again..."));
+		QMessageBox::warning(this, APPNAME, tr("无设备\n\n用数据线连接后再试"));
 	}
 	else if(process_output.contains("unauthorized"))
 	{
@@ -118,7 +118,7 @@ void flashDialog::initADB()
 
 		buttonBox->button(QDialogButtonBox::Retry)->setEnabled(true);
 
-		QMessageBox::warning(this, APPNAME, tr("Unauthorized device found!\n\nAuthorize on phone and try again..."));
+		QMessageBox::warning(this, APPNAME, tr("未授权\n\n请在手机上点击允许调试"));
 	}
 	else if(process_output.contains("permissions"))
 	{
@@ -128,7 +128,7 @@ void flashDialog::initADB()
 
 		buttonBox->button(QDialogButtonBox::Retry)->setEnabled(true);
 
-		QMessageBox::warning(this, APPNAME, tr("No permissions for device!\n\nFix and try again..."));
+		QMessageBox::warning(this, APPNAME, tr("无权限n\n请修复后再试"));
 	}
 	else if(process_output.contains("List of devices attached\n"))
 	{
@@ -160,7 +160,7 @@ void flashDialog::initADB()
 
 		if(!supported)
 		{
-			QMessageBox::warning(this, APPNAME, tr("Unsupported device detected!\n\nUse at your own risk and report model if succesfully..."));
+			QMessageBox::warning(this, APPNAME, tr("你的设备未被测试过!\n\n请自行承担使用风险"));
 		}
 
 		if(usbmode == FLASH)
@@ -174,17 +174,17 @@ void flashDialog::initADB()
 	}
 	else if(!failed)
 	{
-		QMessageBox::warning(this, APPNAME, tr("Unexpected response from device!"));
+		QMessageBox::warning(this, APPNAME, tr("超出预期的回复"));
 	}
 }
 
 void flashDialog::startFlashing()
 {
-	if(QMessageBox::question(this, APPNAME, tr("Start fastboot to flash logo image?")) == QMessageBox::Yes)
+	if(QMessageBox::question(this, APPNAME, tr("现在开刷？")) == QMessageBox::Yes)
 	{
 		sendCommand("adb reboot-bootloader");
 
-		textEdit->append("\nWaiting 5 seconds for device to finish reboot...\n");
+		textEdit->append("\n等待设备重启中...\n");
 
 		QCoreApplication::processEvents();
 
@@ -204,7 +204,7 @@ void flashDialog::startFlashing()
 
 		if(abort)
 		{
-			QMessageBox::warning(this, APPNAME, tr("Waiting for fastboot aborted!"));
+			QMessageBox::warning(this, APPNAME, tr("已取消"));
 		}
 		else
 		{
@@ -214,11 +214,11 @@ void flashDialog::startFlashing()
 
 			if(process_output.contains("error") || process_output.contains("FAILED"))
 			{
-				QMessageBox::warning(this, APPNAME, tr("Flashing logo image failed!\n\nSee log for details..."));
+				QMessageBox::warning(this, APPNAME, tr("刷坏了（悲）\n\n详见日志"));
 			}
 			else
 			{
-				QMessageBox::information(this, APPNAME, tr("Flashing logo image finished.\n\nClick OK to reboot device..."));
+				QMessageBox::information(this, APPNAME, tr("刷好了（喜）\n\n点击重启设备"));
 			}
 
 			sendCommand("fastboot reboot");
@@ -234,7 +234,7 @@ void flashDialog::startDumping()
 	{
 		buttonBox->button(QDialogButtonBox::Retry)->setEnabled(true);
 
-		QMessageBox::warning(this, APPNAME, tr("Access denied!\n\nGrant root permissions and try again..."));
+		QMessageBox::warning(this, APPNAME, tr("无权限\n\n在？给个 root"));
 	}
 	else if(process_output.contains("copied"))
 	{
@@ -242,16 +242,16 @@ void flashDialog::startDumping()
 
 		if(process_output.contains("pulled"))
 		{
-			QMessageBox::information(this, APPNAME, tr("Dumping logo image finished."));
+			QMessageBox::information(this, APPNAME, tr("提取完成"));
 		}
 		else
 		{
-			QMessageBox::warning(this, APPNAME, tr("Dumping logo image failed!\n\nSee log for details..."));
+			QMessageBox::warning(this, APPNAME, tr("提取失败\n\n详见日志"));
 		}
 	}
 	else if(!failed)
 	{
-		QMessageBox::warning(this, APPNAME, tr("Unexpected response from device!"));
+		QMessageBox::warning(this, APPNAME, tr("超出预期的回复"));
 	}
 }
 
@@ -271,7 +271,7 @@ void flashDialog::reject()
 {
 	if(running)
 	{
-		if(QMessageBox::question(this, APPNAME, tr("Really abort running command?")) == QMessageBox::Yes)
+		if(QMessageBox::question(this, APPNAME, tr("确定要取消?")) == QMessageBox::Yes)
 		{
 			abort = true;
 			running = false;
